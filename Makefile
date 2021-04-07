@@ -1,5 +1,5 @@
 #
-# Copyright (2019) Petr Ospalý <petr@ospalax.cz>
+# Copyright (2019-2021) Petr Ospalý <pospaly@opennebula.io>
 #
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -22,6 +22,7 @@ $(BUILD_DIR)/$(IKEA_PKG)-$(KEA_VERSION)-alpine$(ALPINE_VERSION).tar.xz: docker
 		-e "KEA_INSTALLPREFIX=$(KEA_INSTALLPREFIX)" \
 		-e "IKEA_PKG=$(IKEA_PKG)" \
 		-e "KEA_VERSION=$(KEA_VERSION)" \
+		-e "USE_DISTRO_PACKAGE=$(USE_DISTRO_PACKAGE)" \
 		-e "ALPINE_VERSION=$(ALPINE_VERSION)" \
 		-e "UID_GID=$$(getent passwd $$(id -u) | cut -d":" -f3,4)" \
 		-v "$$(realpath '$(BUILD_DIR)'):/build/:rw" \
@@ -55,6 +56,7 @@ docker: Dockerfile build.sh
 		KEEP_BUILDBLOB="$(KEEP_BUILDBLOB)" \
 		KEEP_BUILDDEPS="$(KEEP_BUILDDEPS)" \
 		INSTALL_HOOKS="$(INSTALL_HOOKS)" \
+		USE_DISTRO_PACKAGE="$(USE_DISTRO_PACKAGE)" \
 		BUILD_DIR="$(BUILD_DIR)" \
 		tools/docker-build.sh
 # It could be so simple, but that pipe with tee is hiding the failure of the
@@ -67,6 +69,7 @@ docker: Dockerfile build.sh
 #		--build-arg KEEP_BUILDBLOB=$(KEEP_BUILDBLOB) \
 #		--build-arg KEEP_BUILDDEPS=$(KEEP_BUILDDEPS) \
 #		--build-arg INSTALL_HOOKS=$(INSTALL_HOOKS) \
+#		--build-arg USE_DISTRO_PACKAGE=$(USE_DISTRO_PACKAGE) \
 #		. | tee "$(BUILD_DIR)/$(IKEA_TAG)-$(KEA_VERSION)-build.log"
 
 clean:

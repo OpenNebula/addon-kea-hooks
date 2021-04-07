@@ -63,6 +63,7 @@ for i in \
     KEEP_BUILDDEPS \
     INSTALL_HOOKS \
     BUILD_DIR \
+    USE_DISTRO_PACKAGE \
     ;
 do
     _value=$(eval echo "\"\$${i}\"")
@@ -88,6 +89,7 @@ docker build -t ${IKEA_TAG} \
     --build-arg KEEP_BUILDBLOB \
     --build-arg KEEP_BUILDDEPS \
     --build-arg INSTALL_HOOKS \
+    --build-arg USE_DISTRO_PACKAGE \
     .
 
 # let's create all relevant tags
