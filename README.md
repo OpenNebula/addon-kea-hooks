@@ -15,12 +15,12 @@ One of the VNFs for [OpenNebula's VNF appliance](https://docs.opennebula.io/appl
 Here is a layout of this repository:
 
 ```
-ikea/
+addon-kea-hooks/
 ├── artifacts/          # Ready to use builds
 ├── Dockerfile
 ├── extra/              # Some handy scripts
 ├── CHANGELOG.md
-├── ikea.sh
+├── build.sh
 ├── LICENSE
 ├── Makefile
 ├── Makefile.config
@@ -97,7 +97,7 @@ Custom hook libraries (build binaries) are packaged with the rest of the Kea sof
 
 ## Tools
 
-The directory `src/tools` is intended for helper tools and scripts directed to the ISC Kea runtime - that means they have nothing to do with the building of `ikea` as opposed to the `tools` directory under root of this repository...
+The directory `src/tools` is intended for helper tools and scripts directed to the ISC Kea runtime - that means they have nothing to do with the building of `addon-kea-hooks` as opposed to the `tools` directory under root of this repository...
 
 - **`kea-config-generator`**: designed for OpenNebula's VNF appliance, but can be used elsewhere too
 

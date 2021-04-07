@@ -1,8 +1,8 @@
 # ChangeLog
 
-In this file are documented all changes and versions of the **`ikea`** project.
+In this file are documented all changes and versions of the **`addon-kea-hooks`** project.
 
-## ikea
+## addon-kea-hooks
 
 For ISC Kea builds this project follows the upstream ISC Kea versioning (e.g.: `1.6.0`).
 

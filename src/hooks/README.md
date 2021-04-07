@@ -6,7 +6,7 @@ Documentation for Kea and hooks:
 - https://jenkins.isc.org/job/Kea_doc/doxygen/df/d46/hooksdgDevelopersGuide.html
 - https://jenkins.isc.org/job/Kea_doc/doxygen/de/df3/dhcpv4Hooks.html
 
-## ikea's hooks
+## Custom hooks
 
 Each hook directory has a source code directory named after its version - e.g.: `v1.0.0` or `v1.0`
 
@@ -16,7 +16,7 @@ Beside the hook's source code directories there are symlinks named after the com
 
 *For example: we are building ISC Kea version `1.6.0` and inside of our ONElease4 hook directory is the symlink `./1.6.0` pointing to the directory `./v1.0.0`, where the source code of this hook resides.*
 
-`ikea` now will know which hooks and what version of them can be built with the ISC Kea version currently being built. If no directory or symlink is present with the correspondent Kea version then this particular hook will be skipped - it will not be built and it will not be packaged.
+The script now will know which hooks and what version of them can be built with the ISC Kea version currently being built. If no directory or symlink is present with the correspondent Kea version then this particular hook will be skipped - it will not be built and it will not be packaged.
 
 ### `kea-onelease-dhcp4`
 #### Version: `1.1.0`

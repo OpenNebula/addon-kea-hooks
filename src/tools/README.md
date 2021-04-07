@@ -1,4 +1,4 @@
-# ikea tools
+# Addon tools
 
 ## kea-config-generator
 
