@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #
-# Copyright (2019) Petr Ospalý <petr@ospalax.cz>
+# Copyright (2019-2021) Petr Ospalý <pospaly@opennebula.io>
 #
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
