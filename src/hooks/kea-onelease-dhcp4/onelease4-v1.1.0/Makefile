@@ -42,6 +42,8 @@ $(BUILD_DIR)/%.o: $(SOURCE_DIR)/%.cc
 install: all
 	@printf "\n# MAKE -> Copy hook library into Kea\n\n"
 	@cp -av "$(BUILD_DIR)/$(LIBHOOK)" "${KEA_INSTALLPREFIX}"/lib/kea/hooks/
+	@echo "${KEA_INSTALLPREFIX}/lib/kea/hooks/$(LIBHOOK)" \
+		>> "${KEA_INSTALLPREFIX}/lib/kea/hooks/opennebula-hooks.list"
 	@printf '\n# MAKE -> INSTALLATION DONE\n\n'
 
 clean:

@@ -46,6 +46,21 @@ install_kea_runtime_deps()
         log4cplus
 }
 
+install_kea_from_package()
+{
+    apk add --no-cache \
+        "kea~${KEA_VERSION}" \
+        "kea-dev~${KEA_VERSION}" \
+        ;
+
+    # TODO: remove when apk will be build
+    # musl linker search paths
+    if ! [ -f /etc/ld-musl-$(arch).path ] ; then
+        echo "/lib:/usr/local/lib:/usr/lib" > /etc/ld-musl-$(arch).path
+        chmod 0644 /etc/ld-musl-$(arch).path
+    fi
+}
+
 install_kea_build_deps()
 {
     apk add --no-cache --virtual .build-deps \
@@ -129,6 +144,12 @@ install_kea_from_source()
 
 install_hooks_from_source()
 {
+    if is_true USE_DISTRO_PACKAGE ; then
+        # override the prefix - distribution version is always under /usr
+        KEA_INSTALLPREFIX="/usr"
+        export KEA_INSTALLPREFIX
+    fi
+
     for hook in /ikea/hooks/*/ ; do
         if [ -d "${hook}/${KEA_VERSION}" ] ; then
             cd "${hook}/${KEA_VERSION}"
@@ -168,16 +189,22 @@ fi
 
 case "$STAGE" in
     suite)
-        # install packages
-        install_kea_runtime_deps
-        install_kea_build_deps
+        if is_true USE_DISTRO_PACKAGE ; then
+            # install packages
+            install_kea_runtime_deps
+            install_kea_from_package
+        else
+            # install packages
+            install_kea_runtime_deps
+            install_kea_build_deps
 
-        # build and install ISC Kea suite
-        install_kea_from_source
+            # build and install ISC Kea suite
+            install_kea_from_source
 
-        # delete blob?
-        if ! is_true KEEP_BUILDBLOB ; then
-            rm -rf /ikea/kea-${KEA_VERSION}*
+            # delete blob?
+            if ! is_true KEEP_BUILDBLOB ; then
+                rm -rf /ikea/kea-${KEA_VERSION}*
+            fi
         fi
         ;;
     hooks)
