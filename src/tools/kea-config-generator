@@ -29,12 +29,12 @@ __all__ = [
 
 __title__ = "kea-config-generator"
 __summary__ = "ISC Kea configuration generator"
-__uri__ = "https://github.com/ospalax/ikea"
-__version__ = "1.1.2"
+__uri__ = "https://github.com/OpenNebula/addon-kea-hooks"
+__version__ = "1.1.3"
 __author__ = "Petr Ospalý"
-__email__ = "pospaly@opennebula.systems"
+__email__ = "pospaly@opennebula.io"
 __license__ = "Apache License, Version 2.0"
-__copyright__ = "2019-2020 %s" % __author__
+__copyright__ = "2019-2021 %s" % __author__
 
 
 import sys
