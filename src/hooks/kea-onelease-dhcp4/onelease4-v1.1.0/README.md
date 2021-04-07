@@ -31,7 +31,7 @@ Of course the ONE lease must meet subnet and pool constraints first...
 
 ### Installation
 
-You will first need to have installed [**ISC Kea**](https://www.isc.org/kea/) software **with** header/development packages (so the hook can link against it) - or use [**`ikea`**](https://github.com/ospalax/ikea) parent project (this very repo) and have all in one.
+You will first need to have installed [**ISC Kea**](https://www.isc.org/kea/) software **with** header/development packages (so the hook can link against it) - or use [**`addon-kea-hooks`**](https://github.com/OpenNebula/addon-kea-hooks) parent project (this very repo) and have all in one.
 
 You can modify the build by editing the `Makefile.config` but there is not so many tweakable things to do except changing the name of the hook library, output directory and compiler flags (the names of the linked libraries might be in the need of fixing too - the ones used here are matching the installation on the Alpine Linux).
 

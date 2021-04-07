@@ -17,7 +17,7 @@ image: $(BUILD_DIR)/$(IKEA_IMG)-$(KEA_VERSION)-alpine$(ALPINE_VERSION).tar
 package: $(BUILD_DIR)/$(IKEA_PKG)-$(KEA_VERSION)-alpine$(ALPINE_VERSION).tar.xz
 
 $(BUILD_DIR)/$(IKEA_PKG)-$(KEA_VERSION)-alpine$(ALPINE_VERSION).tar.xz: docker
-	@echo "IKEA: CREATE PACKAGE..."
+	@echo "INFO: CREATE PACKAGE..."
 	docker run --rm -it --entrypoint /bin/sh \
 		-e "KEA_INSTALLPREFIX=$(KEA_INSTALLPREFIX)" \
 		-e "IKEA_PKG=$(IKEA_PKG)" \
@@ -34,13 +34,13 @@ $(BUILD_DIR)/$(IKEA_PKG)-$(KEA_VERSION)-alpine$(ALPINE_VERSION).tar.xz: docker
 			> "$(IKEA_PKG)-$(KEA_VERSION)-alpine$(ALPINE_VERSION).tar.xz.sha256sum"
 
 $(BUILD_DIR)/$(IKEA_IMG)-$(KEA_VERSION)-alpine$(ALPINE_VERSION).tar: docker
-	@echo "IKEA: SAVE DOCKER IMAGE INTO TAR..."
+	@echo "INFO: SAVE DOCKER IMAGE INTO TAR..."
 	docker save -o \
 		"$(BUILD_DIR)/$(IKEA_IMG)-$(KEA_VERSION)-alpine$(ALPINE_VERSION).tar" \
 		"$(IKEA_TAG):$(KEA_VERSION)-alpine$(ALPINE_VERSION)"
 
-docker: Dockerfile ikea.sh
-	@echo "IKEA: START DOCKER BUILD..."
+docker: Dockerfile build.sh
+	@echo "INFO: START DOCKER BUILD..."
 	@mkdir -p "$(BUILD_DIR)"
 	@if [ -f "$(BUILD_DIR)/$(IKEA_TAG)-$(KEA_VERSION)-build.log" ] ; then \
 		mv -vf "$(BUILD_DIR)/$(IKEA_TAG)-$(KEA_VERSION)-build.log" \
@@ -70,6 +70,6 @@ docker: Dockerfile ikea.sh
 #		. | tee "$(BUILD_DIR)/$(IKEA_TAG)-$(KEA_VERSION)-build.log"
 
 clean:
-	@echo "IKEA: DELETE BUILD DIR"
+	@echo "INFO: DELETE BUILD DIR"
 	rm -rf "$(BUILD_DIR)"
 

@@ -28,17 +28,17 @@ ENV INSTALL_HOOKS "${INSTALL_HOOKS}"
 # build and install ISC Kea
 #
 
-# ikea script
+# build script
 WORKDIR /ikea
-COPY ikea.sh ./
-RUN chmod 0755 ikea.sh
+COPY build.sh ./
+RUN chmod 0755 build.sh
 
 # first stage: suite
-RUN env KEEP_BUILDDEPS=yes ./ikea.sh suite
+RUN env KEEP_BUILDDEPS=yes ./build.sh suite
 
 # second stage: hooks
 COPY src/hooks/ ./hooks/
-RUN ./ikea.sh hooks
+RUN ./build.sh hooks
 
 
 ###############################################################################
