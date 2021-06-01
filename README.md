@@ -41,7 +41,7 @@ addon-kea-hooks/
 
 First of all you need to have installed [**`docker`**](https://www.docker.com/) and `make` command. This project (if successful) will create a few artifacts:
 
-- docker image with built and installed ISC Kea (also saved as a tar)
+- docker image with built and installed ISC Kea (also saved as a tar and an apk package)
 - an archive with ISC Kea compiled binaries (installation prefix)
 
 The archive is used as a artifact for ONE VNF appliance - rebuilding ISC Kea with each appliance build would be too time-consuming.
