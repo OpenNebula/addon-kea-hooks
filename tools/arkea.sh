@@ -69,5 +69,13 @@ fi
 chown "${UID_GID:-$(id -u).}" \
     "/build/${IKEA_PKG}-${KEA_VERSION}-alpine${ALPINE_VERSION}.tar.xz"
 
+# save the result of the alpine package build
+if [ -d /packages ] ; then
+    cp -a /packages /build/
+
+    chown -R "${UID_GID:-$(id -u).}" \
+        "build/packages"
+fi
+
 exit 0
 

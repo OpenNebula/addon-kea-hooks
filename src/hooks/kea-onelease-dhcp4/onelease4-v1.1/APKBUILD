@@ -1,0 +1,30 @@
+# Maintainer: OpenNebula Team <contact@opennebula.io>
+# Contributor: Petr Ospalý <pospaly@opennebula.io>
+pkgname=kea-hook-onelease4
+pkgver=1.1.1
+pkgrel=0
+pkgdesc="This is a hook for the Kea DHCP4 server which matches the lease to a MAC address."
+url="https://github.com/OpenNebula/addon-kea-hook-onelease4"
+arch="all"
+license="MPL-2.0"
+depends="kea-common>=1.6.0"
+makedepends="boost-dev kea-dev log4cplus-dev"
+source="$pkgname-$pkgver.tar.gz::https://github.com/OpenNebula/addon-kea-hook-onelease4/archive/refs/tags/v$pkgver.tar.gz"
+options="!check"  # Library and makefile provide no tests
+
+prepare() {
+    mv "$srcdir/addon-$pkgname-$pkgver" "$srcdir/$pkgname-$pkgver"
+
+    default_prepare
+}
+
+build() {
+    LIBHOOK="libkea-onelease-dhcp4.so"
+    KEA_INSTALLPREFIX="/usr"
+    make
+}
+
+package() {
+    install -Dm755 build/libkea-onelease-dhcp4.so "$pkgdir"/usr/lib/kea/hooks/libkea-onelease-dhcp4.so
+}
+

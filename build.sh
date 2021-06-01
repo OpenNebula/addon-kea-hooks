@@ -50,6 +50,11 @@ install_kea_from_package()
 {
     apk add --no-cache \
         "kea~${KEA_VERSION}" \
+        ;
+
+    apk add --no-cache --virtual .build-deps1 \
+        alpine-sdk \
+        sudo \
         "kea-dev~${KEA_VERSION}" \
         ;
 
@@ -63,7 +68,9 @@ install_kea_from_package()
 
 install_kea_build_deps()
 {
-    apk add --no-cache --virtual .build-deps \
+    apk add --no-cache --virtual .build-deps2 \
+        alpine-sdk \
+        sudo \
         build-base \
         file \
         gnupg \
@@ -151,17 +158,51 @@ install_hooks_from_source()
     fi
 
     for hook in /ikea/hooks/*/ ; do
-        if [ -d "${hook}/${KEA_VERSION}" ] ; then
-            cd "${hook}/${KEA_VERSION}"
+        if [ -d "${hook}/${KEA_VERSION}/submodule" ] ; then
+            cd "${hook}/${KEA_VERSION}/submodule"
             make install
             cd -
         fi
     done
 }
 
+prepare_abuild()
+{
+    adduser -D -G abuild abuild
+
+    mkdir -p /var/cache/distfiles
+    chgrp abuild /var/cache/distfiles
+    chmod g+w /var/cache/distfiles
+
+    cat /abuild.conf > /etc/abuild.conf
+    rm -f /abuild.conf
+
+    echo 'abuild ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
+
+    su - abuild -c 'abuild-keygen -a -i -n'
+}
+
+run_abuild()
+{
+    for hook in /ikea/hooks/*/ ; do
+        if [ -e "${hook}/${KEA_VERSION}/APKBUILD" ] ; then
+            hook_name=$(basename "${hook}")
+            su - abuild -c "newapkbuild ${hook_name}"
+            cd ~abuild/"${hook_name}"
+            cat "${hook}/${KEA_VERSION}/APKBUILD" > APKBUILD
+            su abuild -c "abuild checksum && abuild -r"
+            cd -
+        fi
+    done
+
+    mv ~abuild/packages /
+    mv /packages/abuild /packages/"onekea-hooks-${KEA_VERSION}"
+    chown -R root:root /packages
+}
+
 clean_apk()
 {
-    apk --purge del .build-deps log4cplus-dev
+    apk --purge del .build-deps1 .build-deps2 log4cplus-dev
 }
 
 # arg: <variable name>
@@ -216,6 +257,10 @@ case "$STAGE" in
         if is_true INSTALL_HOOKS ; then
             install_hooks_from_source
         fi
+
+        # run alpine build system to create a package
+        prepare_abuild
+        run_abuild
 
         # delete blob?
         if ! is_true KEEP_BUILDBLOB ; then

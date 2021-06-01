@@ -39,6 +39,7 @@ RUN chmod 0755 build.sh
 RUN env KEEP_BUILDDEPS=yes ./build.sh suite
 
 # second stage: hooks
+COPY abuild.conf /
 COPY src/hooks/ ./hooks/
 RUN ./build.sh hooks
 
@@ -93,6 +94,9 @@ RUN \
 # install build artifact
 COPY --from=builder "${KEA_INSTALLPREFIX}" "${KEA_INSTALLPREFIX}"
 COPY --from=builder /etc/ld-musl-* /etc/
+
+# save alpine packages
+COPY --from=builder /packages/ /packages/
 
 RUN test -e "${KEA_INSTALLPREFIX}/lib" && ldconfig "${KEA_INSTALLPREFIX}/lib"
 
